@@ -10,14 +10,29 @@ void reverseArray (int* input_array, int length)
     }
 }
 
-int str_len(char input){
-    char* first = &input;
-    char* current;
-    int i;
-    for (i = 0; current* != '\0'; i++){
-        current = (first+i);
+int str_len(char* input){
+    int i = 0;
+    for (; input[i] != '\0'; i++){
+        continue;
     }
-    return (i-1);
+    return (i);
+}
+
+int is_prime(int x)
+{
+    float temp_ansf = 0.0;
+    int temp_ansi = 0;
+    for (int i = 2; (i*i) <= x; i++){
+        
+        temp_ansi = (x / i);
+        float x_f = (float) x;
+        temp_ansf = (x_f/i);
+        if ((temp_ansf) == (temp_ansi)) {
+            return 0;
+        }
+    }
+    if (x==1){ return 0; }
+    return 1;
 }
 
 int main()
@@ -34,8 +49,13 @@ int main()
         printf("%d\n", fwd_array[i]);
     }
 
-    char test [] = "hello";
-    printf("Hello is %d letters", str_len(test));
+    char test [] = "Hello World!!!";
+    printf("%s is %d letters\n", test, str_len(test));
+
+    int test_primes [] = {5, 6, 10, 11, 1, 2, 101};
+    for (int i = 0; i < 7; i++){
+        printf("%d:\t%d\n", test_primes[i], is_prime(test_primes[i]));
+    }
 
 }
 
