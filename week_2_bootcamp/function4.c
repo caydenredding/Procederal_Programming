@@ -47,7 +47,7 @@ int main ()
 
         case 'Q': break;
 
-        default:  break;
+        default:  printf ("NOPE"); break;
     }
 
     return 0;
