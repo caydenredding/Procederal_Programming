@@ -32,12 +32,14 @@ int validate_file(const char *filename, FITNESS_DATA *data) {
 	char temp_steps [6];
 
 	// putting data from file into suitable array (causes segmentation fault)
-
 	while (fgets(line_buffer, buffer_size, file) != NULL) {
         tokeniseRecord(line_buffer, ",", data[i].date, data[i].time, temp_steps);
-		i++;
 		data[i].steps = atoi(temp_steps);
+		i++;
     }
+
+	fclose(file);
+
 
 	return 0;
 

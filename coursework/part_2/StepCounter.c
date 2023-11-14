@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "FitnessDataStruct.h"
-#define buffer_size 100
 
 // Struct moved to header file
 
@@ -10,11 +9,9 @@
 // Global variables for filename and FITNESS_DATA array
 
 char menu_choice;
-int quit = 0;
+int quit = 0, num_records;
 FITNESS_DATA step_count [500];
 char filename [30];
-FILE *file;
-char line_buffer[buffer_size];
 
 
 // This is your helper function. Do not change it in any way.
@@ -60,62 +57,53 @@ void tokeniseRecord(const char *input, const char *delimiter,
     }
 
 
-
-
 // Complete the main function
 int main() {
-    printOptions();
-    scanf("%c", &menu_choice);
-    printf("\n");
-    
-    switch (menu_choice)
+    while (quit == 0)
     {
-        // Import file
-        case 'a':
-        case 'A':
-            printf("Input filename: ");
-            scanf("%s", filename);
-            validate_file(filename, step_count);
+        printOptions();
+        scanf("%c", &menu_choice);
+        printf("\n");
+        
+        switch (menu_choice)
+        {
+            // Import file
+            case 'a':
+            case 'A':
+                printf("Input filename: ");
+                scanf("%s", filename);
+                validate_file(filename, step_count, *num_records);
 
-
-
-            fclose(file);
-
-            break;
-        // case 'b':
-        // case 'B':
-        //     printf("%d",num_records());
-        //     break;
-        // case 'c':
-        // case 'C':
-        //     printf("%d",min_steps());
-        //     break;
-        // case 'd':
-        // case 'D':
-        //     printf("%d",max_steps());
-        //     break;
-        // case 'e':
-        // case 'E':
-        //     printf("%d",avg_steps());
-        //     break;
-        // case 'f':
-        // case 'F':
-        //     printf("%d", max_stretch(500));
-        //     break;
-        // quit
-        case 'q':
-        case 'Q':
-            quit = 1;
-            break;
-        // Invalid Selection
-        default:
-            printf("Invalid choice. Try again.\n");
-            break;
-    }
-
-
-
-
-
-   
+                break;
+            case 'b':
+            case 'B':
+                printf("%d",num_records);
+                break;
+            // case 'c':
+            // case 'C':
+            //     printf("%d",min_steps());
+            //     break;
+            // case 'd':
+            // case 'D':
+            //     printf("%d",max_steps());
+            //     break;
+            // case 'e':
+            // case 'E':
+            //     printf("%d",avg_steps());
+            //     break;
+            // case 'f':
+            // case 'F':
+            //     printf("%d", max_stretch(500));
+            //     break;
+            // quit
+            case 'q':
+            case 'Q':
+                quit = 1;
+                break;
+            // Invalid Selection
+            default:
+                printf("Invalid choice. Try again.\n");
+                break;
+        }
+    }   
 }
