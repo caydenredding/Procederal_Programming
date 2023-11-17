@@ -1,8 +1,10 @@
 #ifndef FITNESS_DATA_STRUCT_H
 #define FITNESS_DATA_STRUCT_H
+#define buffer_size 100
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 // Define an appropriate struct
 typedef struct {
@@ -16,38 +18,44 @@ void tokeniseRecord(const char *input, const char *delimiter, char *date, char *
 
 void printOpitons();
 
-int validate_file(const char *filename, FITNESS_DATA *data) {
-    FILE *file = fopen(filename, "r");
+int import_file(const char *filename, FITNESS_DATA *data, int *num_readings) {
+    FILE *input = fopen(filename, "r");
+    	if (!input)
+    	{
+        	printf("Error: File could not be opened\n");
+        	return 1;
+    	}
 
-	// file not found
-    if (file == NULL) {
-        printf("Error: could not open file");
-        return 1;
-    }
+	char line[buffer_size];
+    int counter = 0;
+	char steps [6];
 
-	int buffer_size = 100;
-	char line_buffer[buffer_size];
+    while (fgets(line, buffer_size, input))
+            {
+                tokeniseRecord(line, ",", data[counter].date, data[counter].time, steps);
+				data[counter].steps = atoi(steps);
+                counter++;
+            }
 
-	int i = 0;
-	char temp_steps [6];
-
-	// putting data from file into suitable array (causes segmentation fault)
-	while (fgets(line_buffer, buffer_size, file) != NULL) {
-        tokeniseRecord(line_buffer, ",", data[i].date, data[i].time, temp_steps);
-		data[i].steps = atoi(temp_steps);
-		i++;
-    }
-
-	fclose(file);
-
+    *num_readings = counter;
 
 	return 0;
-
 }
 
-int num_records();
-
-int min_steps();
+int min_steps(FITNESS_DATA *data, int num_readings, char *date, char *time)
+{
+	int min = 1000000;
+	for (int i = 0; i < num_readings; i++)
+	{
+		if (data[i].steps < min)
+		{
+			min = data[i].steps;
+			strcpy(date, data[i].date);
+			strcpy(time, data[i].time);
+		}
+	}
+	return 0;
+}
 
 int max_steps();
 

@@ -12,6 +12,7 @@ char menu_choice;
 int quit = 0, num_records;
 FITNESS_DATA step_count [500];
 char filename [30];
+char min_date [11], min_time [6], max_date [11], max_time [6];
 
 
 // This is your helper function. Do not change it in any way.
@@ -62,7 +63,7 @@ int main() {
     while (quit == 0)
     {
         printOptions();
-        scanf("%c", &menu_choice);
+        scanf(" %c", &menu_choice);
         printf("\n");
         
         switch (menu_choice)
@@ -72,17 +73,20 @@ int main() {
             case 'A':
                 printf("Input filename: ");
                 scanf("%s", filename);
-                validate_file(filename, step_count, *num_records);
-
+                printf("\n");
+                import_file(filename, step_count, &num_records);
                 break;
+            // Output number of records
             case 'b':
             case 'B':
-                printf("%d",num_records);
+                printf("%d\n",num_records);
                 break;
-            // case 'c':
-            // case 'C':
-            //     printf("%d",min_steps());
-            //     break;
+            // Date and Time of Fewest Steps
+            case 'c':
+            case 'C':
+                min_steps(step_count, num_records, min_date, min_time);
+                printf("%s %s\n", min_date, min_time);
+                break;
             // case 'd':
             // case 'D':
             //     printf("%d",max_steps());
@@ -103,7 +107,6 @@ int main() {
             // Invalid Selection
             default:
                 printf("Invalid choice. Try again.\n");
-                break;
         }
     }   
 }
